@@ -1,0 +1,32 @@
+{
+    // code linting
+    "python.linting.flake8Enabled": false,
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true,
+    "python.linting.pylintArgs": [
+        "--rcfile=pylint.conf",
+        "--extension-pkg-whitelist=pydantic"
+    ],
+    "python.analysis.typeCheckingMode": "basic",
+    "python.analysis.completeFunctionParens": true,
+    // python formatting
+    "python.formatting.provider": "black",
+    "editor.formatOnSave": true,
+    // file exclude
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        // custom files
+        "**/__pycache__": true,
+        "PIPENV_VENV_IN_PROJECT": true,
+        // "pylint.conf": true,
+        // "Pipfile": true,
+        // "Pipfile.lock": true,
+        // ".gitignore": true,
+    },
+    "keep-a-changelog.defaultRepository": "instrument-management-service"
+}

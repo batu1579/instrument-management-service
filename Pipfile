@@ -1,0 +1,24 @@
+[[source]]
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+verify_ssl = true
+name = "custom"
+
+[packages]
+fastapi = "*"
+pip = "*"
+install = "*"
+uvicorn = {extras = ["standard"], version = "*"}
+python-dotenv = "*"
+pydantic = "*"
+loguru = "*"
+sqlalchemy = "*"
+pymysql = "*"
+pysnowflake = "*"
+
+[dev-packages]
+black = "*"
+pylint = "*"
+pylint-pydantic = "*"
+
+[requires]
+python_version = "3.10"
