@@ -8,9 +8,9 @@ from app.util.string_length import SHORT_LENGTH, MIDDLE_LENGTH, LONG_LENGTH
 
 
 class CabinetStatus(Enum):
-    DISABLED = "disabled"
-    NORMAL = "normal"
-    FULL_LOAD = "full load"
+    DISABLED = 0
+    ENABLED = 1
+    FULL_LOAD = 2
 
 
 class Cabinet(Base):
