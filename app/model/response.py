@@ -1,13 +1,10 @@
-from typing import Optional, Generic, TypeVar
+from typing import Optional
 
 from abc import ABC
 
 from pydantic import HttpUrl
-from pydantic.generics import GenericModel
 
 from app.model.base import BaseModel
-
-DataField = TypeVar("DataField", BaseModel, str)
 
 
 class Response(BaseModel, ABC):
@@ -24,7 +21,7 @@ class Response(BaseModel, ABC):
     msg: str
 
 
-class Success(GenericModel, Generic[DataField], Response):
+class Success(Response):
     """成功响应模型
 
     Args:
@@ -37,7 +34,7 @@ class Success(GenericModel, Generic[DataField], Response):
     status: int = 1
     code: Optional[int] = 200
     msg: Optional[str] = "Success"
-    data: DataField
+    data: BaseModel | list[BaseModel]
 
 
 class Error(Response):
