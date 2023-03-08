@@ -17,11 +17,16 @@ class BaseModel(__BaseModel):
         }
 
 
-class DataBaseModel(BaseModel):
+class DataModel(BaseModel):
     id: int
     created_at: Optional[datetime]
     updated_at: Optional[datetime]
 
 
-class SnowFlakeID(BaseModel):
-    id: int = Field(default_factory=get_guid)
+class InDBModel(BaseModel):
+    id: Optional[int] = Field(default_factory=get_guid)
+    created_at: Optional[datetime]
+    updated_at: Optional[datetime]
+
+    class Config(BaseConfig):
+        orm_mode = True
