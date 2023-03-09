@@ -3,7 +3,7 @@ from enum import Enum
 from sqlalchemy import Column, String
 from sqlalchemy import Enum as SQLAlchemyEnum
 
-from app.database import Base
+from app.database.table import Base
 from app.util.string_length import SHORT_LENGTH, LONG_LENGTH
 
 
