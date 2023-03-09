@@ -55,12 +55,11 @@ class _BaseSetting(DataModel):
     )
 
     @validator("value", always=True)
-    def check_value(cls, value: str, all_values: dict) -> ParsedValue:
+    def check_value(cls, _: str, values: dict) -> ParsedValue:
         """校验设置值
 
         Args:
-            value (str): 设置值（必为空）
-            all_values (dict): 全部字段
+            values (dict): 全部字段
 
         Raises:
             ValueError: 当类型与值不匹配时抛出异常
@@ -68,8 +67,8 @@ class _BaseSetting(DataModel):
         Returns:
             ParsedValue: 转换类型后的设置值
         """
-        value_type: SettingValueType = all_values["value_type"]
-        raw_value: str = all_values["setting_value"]
+        value_type: SettingValueType = values["value_type"]
+        raw_value: str = values["setting_value"]
 
         try:
             if value_type == SettingValueType.INTEGER:
@@ -78,7 +77,7 @@ class _BaseSetting(DataModel):
                 return float(raw_value)
             if value_type == SettingValueType.BOOLEAN:
                 return bool(raw_value)
-            return value  # 默认类型不需要转换
+            return raw_value  # 默认类型不需要转换
         except ValueError as err:
             raise ValueError(
                 f"Setting value doesn't match the type: {value_type}"
