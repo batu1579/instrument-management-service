@@ -12,8 +12,8 @@ python-dotenv = "*"
 pydantic = "*"
 loguru = "*"
 sqlalchemy = "*"
-pymysql = "*"
 pysnowflake = "*"
+asyncpg = "*"
 
 [dev-packages]
 black = "*"
