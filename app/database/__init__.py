@@ -1,10 +1,10 @@
-from typing import Iterable
+from typing import AsyncIterable
 
-from sqlalchemy.engine import Engine
 from sqlalchemy.engine.url import URL
 from sqlalchemy.orm import sessionmaker, Session
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine, Column, BigInteger, DateTime, func
+from sqlalchemy.ext.asyncio import create_async_engine, AsyncEngine, AsyncSession
 
 from app.util.env import (
     DB_HOST,
@@ -31,7 +31,7 @@ class Base(declarative_base()):
 
 class _DataBaseEngine:
     _CONNECT_URL: URL = URL.create(
-        drivername="mysql+pymysql",
+        drivername="postgresql+asyncpg",
         username=DB_USER,
         password=DB_PASSWORD,
         host=DB_HOST,
@@ -41,29 +41,30 @@ class _DataBaseEngine:
             "charset": "utf8mb4",
         },
     )
-    _engine: Engine
+    _engine: AsyncEngine
     _session_factory: sessionmaker
 
     def __init__(self):
-        self._engine = create_engine(self._CONNECT_URL, encoding="utf-8", echo=True)
+        self._engine = create_async_engine(self._CONNECT_URL, echo=True)
         self._session_factory = sessionmaker(
-            bind=self._engine,
+            bind=self._engine,  # type: ignore
+            class_=AsyncSession,
             # autoflush=False,
             autocommit=False,
             expire_on_commit=True,
         )
 
-    def disconnect(self) -> None:
+    async def disconnect(self) -> None:
         """断开与数据库的连接"""
-        self._engine.dispose()
+        await self._engine.dispose()
 
-    def get_session(self) -> Iterable[Session]:
+    async def get_session(self) -> AsyncIterable[Session]:
         """获取一个与数据库的会话
 
         Returns:
             Iterable[Session]: 数据库会话
         """
-        with self._session_factory() as session:
+        async with self._session_factory() as session:
             yield session
 
 
@@ -74,10 +75,10 @@ class _DataBaseClient:
         """连接到数据库"""
         self.client = _DataBaseEngine()
 
-    def disconnect_database(self) -> None:
+    async def disconnect_database(self) -> None:
         """断开与数据库的连接"""
         if self.client is not None:
-            self.client.disconnect()
+            await self.client.disconnect()
 
 
 DB = _DataBaseClient()
