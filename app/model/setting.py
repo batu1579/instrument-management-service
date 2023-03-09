@@ -7,7 +7,7 @@ from app.model.base import BaseModel, DataModel, InDBModel
 from app.util.string_length import SHORT_LENGTH, LONG_LENGTH
 from app.database.table.setting import SettingValueType
 
-ParsedValue: TypeAlias = str | int | float | bool | None
+ParsedValue: TypeAlias = str | int | float | bool
 
 
 class _BaseSetting(DataModel):
@@ -41,7 +41,7 @@ class _BaseSetting(DataModel):
         example="EXAMPLE_SETTING_VALUE",
     )
     value: ParsedValue = Field(
-        None,
+        ...,
         title="解析后的设置项值",
         description="辅助字段，用于记录转换类型后的设置项值。创建时不需包含此字段，序列化时也不会包含此字段。",
         exclude=True,
@@ -89,7 +89,7 @@ class Setting(_BaseSetting):
 
 
 class SettingInDB(InDBModel, _BaseSetting):
-    setting_value: str = Field(..., max_length=LONG_LENGTH, description="设置项值")
+    pass
 
 
 class SettingInCreate(_BaseSetting):
@@ -97,8 +97,12 @@ class SettingInCreate(_BaseSetting):
 
 
 class SettingInUpdate(BaseModel):
-    setting_value: Optional[str] = Field(
-        ..., max_length=LONG_LENGTH, description="Setting value"
+    setting_value: str = Field(
+        ...,
+        max_length=LONG_LENGTH,
+        title="设置项值",
+        description="设置项的值，必须与 value_type 字段对应，如果不能直接强制转换则会抛出一个 ValueError 异常。",
+        example="EXAMPLE_SETTING_VALUE",
     )
 
 
