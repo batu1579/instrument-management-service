@@ -23,9 +23,9 @@ T = TypeVar("T")
 class GUID:
     """使用雪花算法生成的全局唯一识别码，依赖于 pysnowflake 生成
 
-    :| 1 bit  |                   41 bit                  |    2 bit    |  8 bit   |    12 bit    |
-    :|  Sign  |                  Timestamp                |  DataCenter |  Worker  |   Sequence   |
-    :|   0b   | 10000011010101010111000101110110001000110 |      01     | 00010111 | 000000000001 |
+    :| 1 bit |                   41 bit                  |   2 bit    |  8 bit   |    12 bit    |
+    :|  Sign |                  Timestamp                | DataCenter |  Worker  |   Sequence   |
+    :|   0b  | 10000011010101010111000101110110001000110 |     01     | 00010111 | 000000000001 |
 
 
     Raises:
