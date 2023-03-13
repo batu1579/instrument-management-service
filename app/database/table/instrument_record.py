@@ -1,6 +1,6 @@
 from sqlalchemy import Column, BigInteger, DateTime
 
-from app.database import Base
+from app.database.table import Base
 
 
 class Instrument(Base):

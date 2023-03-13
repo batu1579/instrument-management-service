@@ -3,7 +3,7 @@ from enum import Enum
 from sqlalchemy import Column, BigInteger
 from sqlalchemy import Enum as SQLAlchemyEnum
 
-from app.database import Base
+from app.database.table import Base
 
 
 class RuleStatus(Enum):
