@@ -2,10 +2,10 @@ from typing import Optional, TypeAlias
 
 from pydantic import Field, validator
 
-from app.model.response import Success
-from app.model.base import BaseModel, DataModel, InDBModel
-from app.util.string_length import SHORT_LENGTH, LONG_LENGTH
 from app.database.table.setting import SettingValueType
+from app.util.string_length import SHORT_LENGTH, LONG_LENGTH
+from app.model.response import Success
+from app.model.base import DataModel, InCreateModel, InUpdateModel
 
 ParsedValue: TypeAlias = str | int | float | bool
 
@@ -40,8 +40,8 @@ class _BaseSetting(DataModel):
         description="设置项的值，必须与 value_type 字段对应，如果不能直接强制转换则会抛出一个 ValueError 异常。",
         example="EXAMPLE_SETTING_VALUE",
     )
-    value: ParsedValue = Field(
-        ...,
+    value: Optional[ParsedValue] = Field(
+        None,
         title="解析后的设置项值",
         description="辅助字段，用于记录转换类型后的设置项值。创建时不需包含此字段，序列化时也不会包含此字段。",
         exclude=True,
@@ -54,7 +54,7 @@ class _BaseSetting(DataModel):
         example="一个设置项描述示例",
     )
 
-    @validator("value", always=True)
+    @validator("value")
     def check_value(cls, _: str, values: dict) -> ParsedValue:
         """校验设置值
 
@@ -67,7 +67,7 @@ class _BaseSetting(DataModel):
         Returns:
             ParsedValue: 转换类型后的设置值
         """
-        value_type: SettingValueType = values["value_type"]
+        value_type: SettingValueType = SettingValueType(values["value_type"])
         raw_value: str = values["setting_value"]
 
         try:
@@ -88,15 +88,11 @@ class Setting(_BaseSetting):
     pass
 
 
-class SettingInDB(InDBModel, _BaseSetting):
+class SettingInCreate(InCreateModel, _BaseSetting):
     pass
 
 
-class SettingInCreate(_BaseSetting):
-    pass
-
-
-class SettingInUpdate(BaseModel):
+class SettingInUpdate(InUpdateModel):
     setting_value: str = Field(
         ...,
         max_length=LONG_LENGTH,
@@ -107,8 +103,4 @@ class SettingInUpdate(BaseModel):
 
 
 class SettingInResponse(Success):
-    data: Setting
-
-
-class SettingListInResponse(Success):
     data: list[Setting]
