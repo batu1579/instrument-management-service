@@ -39,7 +39,7 @@ class Success(Response):
         status (Optional[int]): 响应状态 (必为 0)
         code (Optional[int]): 状态码 (必为 200)
         msg (Optional[str]): 详细错误信息 (必为 Success)
-        data (BaseModel | list[BaseModel] | dict | list[dict]): 响应附带的数据
+        data (list[BaseModel | dict]): 响应附带的数据
         data_length (Optional[int]): 相应附带的数据长度
         info (Optional[str | HttpUrl]): 附加的说明信息
     """
@@ -56,12 +56,10 @@ class Success(Response):
         title="响应消息",
         description="因为是成功的响应，响应消息必定为 Success 。如果有需要告知的额外信息，请使用 info 字段",
     )
-    data: BaseModel | list[BaseModel] | dict | list[dict] = Field(
+    data: list[BaseModel | dict] = Field(
         {}, title="响应附带的数据", description="可能是单条数据或多条数据组成的列表"
     )
-    data_length: Optional[int] = Field(
-        None, title="数据条目数量", description="如果携带了多条数据则记录数据条数，否则为空"
-    )
+    data_length: Optional[int] = Field(None, title="数据条目数量", description="携带的数据条数")
 
     @validator("data_length", always=True)
     def add_data_length(cls, _, values: dict) -> Optional[int]:
@@ -71,11 +69,9 @@ class Success(Response):
             values (dict): 包含的全部信息
 
         Returns:
-            Optional[int]: 如果携带了多条数据则返回数据条数，否则返回 None
+            Optional[int]: 携带的数据条数
         """
-        if isinstance(values["data"], list):
-            return len(values["data"])
-        return None
+        return len(values.get("data"))  # type: ignore
 
 
 class Error(Response):
@@ -101,5 +97,8 @@ class Error(Response):
     )
     msg: str = Field(..., title="响应消息", description="详细错误信息")
     data: Optional[dict] = Field(
-        {}, const=True, title="响应附带的数据", description="因为是失败的响应，所以不能携带数据"
+        [], const=True, title="响应附带的数据", description="因为是失败的响应，所以不能携带数据"
+    )
+    data_length: Optional[int] = Field(
+        0, const=True, title="数据条目数量", description="携带的数据条数"
     )
