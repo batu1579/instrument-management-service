@@ -162,6 +162,18 @@ class GUID:
             "sequence": self.sequence_num,
         }
 
+    def __eq__(self, other: object) -> bool:
+        if isinstance(other, GUID):
+            return self.__id == other.guid
+        if isinstance(other, int) and GUID.is_guid(other):
+            return self.__id == other
+        if isinstance(other, str) and GUID.is_guid(int(other)):
+            return self.to_string() == other
+        return False
+
+    def __ne__(self, other: object) -> bool:
+        return not self.__eq__(other)
+
     def __repr__(self) -> str:
         return f"<GUID: {self.__id}>"
 
