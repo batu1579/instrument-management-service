@@ -1,7 +1,7 @@
 from sqlalchemy import Column, String, BigInteger
 
 from app.database.table import Base
-from app.util.string_length import SHORT_LENGTH, MIDDLE_LENGTH, LONG_LENGTH
+from app.util.string_length import SHORT_LENGTH, LONG_LENGTH, URL_LENGTH
 
 
 class InstrumentCategory(Base):
@@ -14,6 +14,6 @@ class InstrumentCategory(Base):
         comment="器械名称",
     )
     category_comment = Column(String(LONG_LENGTH), nullable=True, comment="器械备注")
-    category_image_url = Column(String(MIDDLE_LENGTH), nullable=True, comment="器械图片")
+    category_image_url = Column(String(URL_LENGTH), nullable=True, comment="器械图片")
 
     expire_duration_MS = Column(BigInteger, comment="过期时长")  # 设为 Null 时代表永不过期
