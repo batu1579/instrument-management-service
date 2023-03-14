@@ -45,10 +45,16 @@ class Success(Response):
     """
 
     status: Optional[int] = Field(
-        0, const=True, title="响应状态", description="因为是成功的响应，所以状态必定为 0"
+        0,
+        const=True,
+        title="响应状态",
+        description="因为是成功的响应，所以状态必定为 0",
     )
     code: Optional[int] = Field(
-        200, const=True, title="状态码", description="因为是成功的响应，状态码必定为 200"
+        200,
+        const=True,
+        title="状态码",
+        description="因为是成功的响应，状态码必定为 200",
     )
     msg: Optional[str] = Field(
         "Success",
@@ -57,9 +63,15 @@ class Success(Response):
         description="因为是成功的响应，响应消息必定为 Success 。如果有需要告知的额外信息，请使用 info 字段",
     )
     data: list[BaseModel | dict] = Field(
-        {}, title="响应附带的数据", description="可能是单条数据或多条数据组成的列表"
+        {},
+        title="响应附带的数据",
+        description="可能是单条数据或多条数据组成的列表",
     )
-    data_length: Optional[int] = Field(None, title="数据条目数量", description="携带的数据条数")
+    data_length: Optional[int] = Field(
+        None,
+        title="数据条目数量",
+        description="携带的数据条数",
+    )
 
     @validator("data_length", always=True)
     def add_data_length(cls, _, values: dict) -> Optional[int]:
@@ -86,7 +98,10 @@ class Error(Response):
     """
 
     status: Optional[int] = Field(
-        1, const=True, title="响应状态", description="因为是失败的响应，所以状态必定为 1"
+        1,
+        const=True,
+        title="响应状态",
+        description="因为是失败的响应，所以状态必定为 1",
     )
     code: int = Field(
         ...,
@@ -95,10 +110,20 @@ class Error(Response):
         description="产生异常的错误码，用于快速找到异常原因。使用的错误码与 HTTP 状态码对应",
         example=404,
     )
-    msg: str = Field(..., title="响应消息", description="详细错误信息")
+    msg: str = Field(
+        ...,
+        title="响应消息",
+        description="详细错误信息",
+    )
     data: Optional[dict] = Field(
-        [], const=True, title="响应附带的数据", description="因为是失败的响应，所以不能携带数据"
+        [],
+        const=True,
+        title="响应附带的数据",
+        description="因为是失败的响应，所以不能携带数据",
     )
     data_length: Optional[int] = Field(
-        0, const=True, title="数据条目数量", description="携带的数据条数"
+        0,
+        const=True,
+        title="数据条目数量",
+        description="携带的数据条数",
     )

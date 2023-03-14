@@ -26,10 +26,14 @@ class DataModel(__BaseModel):
         description="数据库中的记录 ID ，也是表中的主键。使用雪花算法生成的全局唯一识别码，依赖于 pysnowflake 。",
     )
     created_at: Optional[datetime] = Field(
-        ..., title="记录创建时间", description="数据库中的记录创建时间。"
+        ...,
+        title="记录创建时间",
+        description="数据库中的记录创建时间。",
     )
     updated_at: Optional[datetime] = Field(
-        ..., title="记录更新时间", description="数据库中的记录最后的更新时间。"
+        ...,
+        title="记录更新时间",
+        description="数据库中的记录最后的更新时间。",
     )
 
     class Config(BaseConfig):
