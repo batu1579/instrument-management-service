@@ -109,7 +109,20 @@ class Setting(_BaseSetting):
 
 
 class SettingInCreate(InCreateModel, _BaseSetting):
-    pass
+    value_type: Optional[SettingValueType] = Field(
+        SettingValueType.STRING,
+        title="设置项数据的类型",
+        description="""
+        目前支持的类型有四个，默认为字符串类型，请求时只需携带对应的数值:
+
+            - STRING    (0): 字符串
+            - INTEGER   (1): 整数
+            - FLOAT     (2): 浮点数
+            - BOOLEAN   (3): 布尔值
+
+        其他类型数值（例如数组）请使用字符串类型并编写对应的解析和校验方法。""",
+        example=SettingValueType.BOOLEAN,
+    )
 
 
 class SettingInUpdate(InUpdateModel):
