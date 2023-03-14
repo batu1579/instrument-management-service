@@ -23,7 +23,7 @@ class _BaseSetting(DataModel):
             - BOOLEAN   (3): 布尔值
 
         其他类型数值（例如数组）请使用字符串类型并编写对应的解析和校验方法。""",
-        example=0,
+        example=SettingValueType.BOOLEAN,
     )
     setting_key: str = Field(
         ...,
