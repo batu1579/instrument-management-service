@@ -1,6 +1,10 @@
 from typing import Type, TypeVar, Any
 
+from sys import exit as sys_exit
+
 from time import strftime, localtime
+
+from requests.exceptions import ConnectionError as RequestsConnectionError
 
 from loguru import logger
 
@@ -13,9 +17,12 @@ from app.util.env import ID_SERVICE_HOST, ID_SERVICE_PORT
 
 def init_snowflake_client() -> None:
     """初始化 ID 服务客户端"""
-    client.setup(ID_SERVICE_HOST, ID_SERVICE_PORT)
-
-    logger.info(f"id service status: {client.get_stats()}")
+    try:
+        client.setup(ID_SERVICE_HOST, ID_SERVICE_PORT)
+        logger.info(f"id service status: {client.get_stats()}")
+    except RequestsConnectionError as error:
+        logger.error(f"Can not init id service: {error}")
+        sys_exit()
 
 
 _GuidT = TypeVar("_GuidT", bound="GUID")
