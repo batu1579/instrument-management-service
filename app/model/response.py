@@ -115,7 +115,7 @@ class Error(Response):
         title="响应消息",
         description="详细错误信息",
     )
-    data: Optional[dict] = Field(
+    data: Optional[list[dict]] = Field(
         [],
         const=True,
         title="响应附带的数据",
