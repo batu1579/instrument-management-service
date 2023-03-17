@@ -5,7 +5,6 @@ from pydantic import Field, validator
 from app.model.response import Success
 from app.model.base import DataModel, InCreateModel, InUpdateModel
 from app.database.table.setting import SettingValueType
-from app.util.regex_pattern import SAFETY_STRING_PATTERN
 from app.util.string_length import SHORT_LENGTH, LONG_LENGTH
 
 ParsedValue: TypeAlias = str | int | float | bool
@@ -37,7 +36,6 @@ class _BaseSetting(DataModel):
     setting_value: str = Field(
         ...,
         max_length=LONG_LENGTH,
-        regex=SAFETY_STRING_PATTERN,
         title="设置项值",
         description="设置项的值，必须与 value_type 字段对应，如果不能直接强制转换则会抛出一个 ValueError 异常。",
         example="EXAMPLE_SETTING_VALUE",
@@ -51,7 +49,6 @@ class _BaseSetting(DataModel):
     setting_comment: Optional[str] = Field(
         None,
         max_length=LONG_LENGTH,
-        regex=SAFETY_STRING_PATTERN,
         title="设置项备注",
         description="描述设置项的作用，格式要求或者示例",
         example="一个设置项描述示例",
@@ -129,7 +126,6 @@ class SettingInUpdate(InUpdateModel):
     setting_value: str = Field(
         ...,
         max_length=LONG_LENGTH,
-        regex=SAFETY_STRING_PATTERN,
         title="设置项值",
         description="设置项的值，必须与 value_type 字段对应，如果不能直接强制转换则会抛出一个 ValueError 异常。",
         example="EXAMPLE_SETTING_VALUE",
