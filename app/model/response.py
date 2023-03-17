@@ -83,7 +83,8 @@ class Success(Response):
         Returns:
             Optional[int]: 携带的数据条数
         """
-        return len(values.get("data"))  # type: ignore
+        data: list[BaseModel | dict] | None = values.get("data")
+        return len(data) if data else 0
 
 
 class Error(Response):
