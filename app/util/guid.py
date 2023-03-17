@@ -58,7 +58,7 @@ class GUID(ValidatedValue[_GuidT]):
         self.__id = guid
 
     @classmethod
-    def generate(cls: Type[GUID]) -> GUID:
+    def generate(cls: Type[_GuidT]) -> _GuidT:
         """从服务端获取新的 GUID
 
         Returns:
@@ -67,7 +67,7 @@ class GUID(ValidatedValue[_GuidT]):
         return cls(client.get_guid(), need_varification=False)
 
     @classmethod
-    def parse_str(cls: Type[GUID], guid: str) -> GUID:
+    def parse_str(cls: Type[_GuidT], guid: str) -> _GuidT:
         """将 GUID 字符串转换为 GUID 对象
 
         Args:
