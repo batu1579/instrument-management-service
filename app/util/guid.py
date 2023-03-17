@@ -195,9 +195,11 @@ class GUID(ValidatedValue[_GuidT]):
     def __eq__(self, other: object) -> bool:
         if isinstance(other, GUID):
             return self.__id == other.guid
-        if isinstance(other, int) and GUID.is_guid(other):
+        if isinstance(other, int):
             return self.__id == other
-        if isinstance(other, str) and GUID.is_guid(int(other)):
+        if isinstance(other, float):
+            return self.__id == int(other)
+        if isinstance(other, str):
             return self.to_string() == other
         return False
 
