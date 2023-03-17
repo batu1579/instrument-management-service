@@ -1,17 +1,16 @@
-from enum import Enum
-
 from sqlalchemy import Column, BigInteger
 from sqlalchemy import Enum as SQLAlchemyEnum
 
 from app.database.table import Base
+from app.util.validated_enum import ValidatedEnum
 
 
-class RuleStatus(Enum):
+class RuleStatus(ValidatedEnum):
     DISABLED = 0
     ENABLED = 1
 
 
-class StorageLocationType(Enum):
+class StorageLocationType(ValidatedEnum):
     ROOM = 0
     CABINET = 1
 

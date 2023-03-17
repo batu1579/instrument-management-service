@@ -1,13 +1,12 @@
-from enum import Enum
-
 from sqlalchemy import Column, String
 from sqlalchemy import Enum as SQLAlchemyEnum
 
 from app.database.table import Base
 from app.util.string_length import SHORT_LENGTH, LONG_LENGTH
+from app.util.validated_enum import ValidatedEnum
 
 
-class SettingValueType(Enum):
+class SettingValueType(ValidatedEnum):
     STRING = 0
     INTEGER = 1
     FLOAT = 2

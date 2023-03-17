@@ -1,13 +1,12 @@
-from enum import Enum
-
 from sqlalchemy import Column, String, BigInteger, Integer
 from sqlalchemy import Enum as SQLAlchemyEnum
 
 from app.database.table import Base
 from app.util.string_length import SHORT_LENGTH, LONG_LENGTH, URL_LENGTH
+from app.util.validated_enum import ValidatedEnum
 
 
-class CabinetStatus(Enum):
+class CabinetStatus(ValidatedEnum):
     DISABLED = 0
     ENABLED = 1
     FULL_LOAD = 2
