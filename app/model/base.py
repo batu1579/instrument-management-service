@@ -5,7 +5,7 @@ from datetime import datetime, timezone
 from pydantic import BaseConfig, Field
 from pydantic import BaseModel as __BaseModel
 
-from app.util.guid import GUID
+from app.util.type.guid import GUID
 
 
 class BaseModel(__BaseModel):

@@ -11,7 +11,7 @@ from loguru import logger
 from snowflake import client
 from snowflake.server.generator import EPOCH_TIMESTAMP
 
-from app.model.validator import ValidatedValue
+from app.util.type.custom_validator import ValidatedValue
 from app.util.env import ID_SERVICE_HOST, ID_SERVICE_PORT
 
 

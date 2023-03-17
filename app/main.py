@@ -12,7 +12,7 @@ from app.database import DB
 from app.exception import handler
 from app.util import env
 from app.util.log import LOG
-from app.util.guid import init_snowflake_client
+from app.util.type.guid import init_snowflake_client
 
 app = FastAPI(
     title=env.TITLE,

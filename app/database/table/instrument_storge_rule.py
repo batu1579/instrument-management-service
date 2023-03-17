@@ -2,7 +2,7 @@ from sqlalchemy import Column, BigInteger
 from sqlalchemy import Enum as SQLAlchemyEnum
 
 from app.database.table import Base
-from app.util.validated_enum import ValidatedEnum
+from app.util.type.enum import ValidatedEnum
 
 
 class RuleStatus(ValidatedEnum):

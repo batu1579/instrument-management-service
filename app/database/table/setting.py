@@ -2,8 +2,8 @@ from sqlalchemy import Column, String
 from sqlalchemy import Enum as SQLAlchemyEnum
 
 from app.database.table import Base
+from app.util.type.enum import ValidatedEnum
 from app.util.string_length import SHORT_LENGTH, LONG_LENGTH
-from app.util.validated_enum import ValidatedEnum
 
 
 class SettingValueType(ValidatedEnum):

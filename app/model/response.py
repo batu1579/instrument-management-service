@@ -1,13 +1,11 @@
 from typing import Optional
 
-from abc import ABC
-
 from pydantic import HttpUrl, Field, validator
 
 from app.model.base import BaseModel
 
 
-class Response(BaseModel, ABC):
+class Response(BaseModel):
     """响应数据模型
 
     Args:

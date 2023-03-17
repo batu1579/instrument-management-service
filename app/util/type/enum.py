@@ -1,13 +1,21 @@
 from typing import TypeVar, Type, Any
 
+from enum import unique
 from enum import Enum as _StandardEnum
 
-from app.model.validator import ValidatedValue
+from app.util.type.custom_validator import ValidatedValue
 
 _EnumT = TypeVar("_EnumT", bound="ValidatedEnum")
 
 
+@unique
 class ValidatedEnum(ValidatedValue[_EnumT], _StandardEnum):
+    """自带校验器的枚举类，扩展自 Enum
+
+    Raises:
+        ValueError: 校验失败会抛出此异常
+    """
+
     @classmethod
     def __validator__(cls: Type[_EnumT], value: Any) -> _EnumT | None:
         if isinstance(value, int):
