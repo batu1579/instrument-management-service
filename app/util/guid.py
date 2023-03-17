@@ -1,5 +1,4 @@
-from __future__ import annotations
-from typing import TypeVar, Type
+from typing import Type, TypeVar, Any
 
 from time import strftime, localtime
 
@@ -8,7 +7,7 @@ from loguru import logger
 from snowflake import client
 from snowflake.server.generator import EPOCH_TIMESTAMP
 
-from app.model.validator import Validated, Validator
+from app.model.validator import ValidatedValue
 from app.util.env import ID_SERVICE_HOST, ID_SERVICE_PORT
 
 
@@ -19,10 +18,10 @@ def init_snowflake_client() -> None:
     logger.info(f"id service status: {client.get_stats()}")
 
 
-V, T = TypeVar("V"), TypeVar("T")
+_GuidT = TypeVar("_GuidT", bound="GUID")
 
 
-class GUID(Validated):
+class GUID(ValidatedValue[_GuidT]):
     """使用雪花算法生成的全局唯一识别码，依赖于 pysnowflake 生成
 
     :| 1 bit |                   41 bit                  |   2 bit    |  8 bit   |    12 bit    |
@@ -73,39 +72,22 @@ class GUID(Validated):
         return cls(int(guid))
 
     @classmethod
-    def validator(cls: Type[GUID], guid: int | str | GUID) -> GUID:
-        """验证不同类型，同时转换为 GUID 对象
-
-        Args:
-            guid (int | str | GUID): 要转换的数据
-
-        Raises:
-            TypeError: 不可转换的数据类型
-
-        Returns:
-            GUID: 转换后的对象
-        """
-        if isinstance(guid, int):
-            return cls(guid)
-        if isinstance(guid, str):
-            return cls.parse_str(guid)
-        if isinstance(guid, cls):
-            return guid
-
-        raise TypeError(f"Unsupported type to GUID: {type(guid)}")
+    def __validator__(cls: Type[_GuidT], value: Any) -> _GuidT | None:
+        if isinstance(value, int):
+            return cls(value)
+        if isinstance(value, str):
+            return cls.parse_str(value)
+        return None
 
     @classmethod
-    def __get_validators__(
-        cls: Type[GUID],
-    ) -> Validator[int | str | GUID, GUID]:
-        yield cls.validator
-
-    @classmethod
-    def __modify_schema__(cls: Type[GUID], field_schema: dict) -> None:
+    def __modify_schema__(cls: Type[_GuidT], field_schema: dict[str, Any]) -> None:
         field_schema.update(
             {
                 "type": "string",
-                "example": GUID.generate().to_string(),
+                "examples": [
+                    cls.generate().guid,
+                    cls.generate().to_string(),
+                ],
             }
         )
 
