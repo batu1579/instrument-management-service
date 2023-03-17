@@ -79,7 +79,11 @@ class _BaseSetting(DataModel):
             if value_type == SettingValueType.FLOAT:
                 return float(raw_value)
             if value_type == SettingValueType.BOOLEAN:
-                return bool(raw_value)
+                if raw_value.lower() == "true":
+                    return True
+                if raw_value.lower() == "false":
+                    return False
+                raise ValueError
             return raw_value  # 默认类型不需要转换
         except ValueError as err:
             raise ValueError(
