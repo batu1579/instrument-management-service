@@ -84,8 +84,11 @@ class _BaseSetting(DataModel):
         Returns:
             ParsedValue: 转换类型后的设置值
         """
-        value_type: SettingValueType = values["value_type"]
-        raw_value: str = values["setting_value"]
+        value_type: SettingValueType | None = values.get("value_type")
+        raw_value: str | None = values.get("setting_value")
+
+        assert value_type is not None, "value_type is required"
+        assert raw_value is not None, "setting_value is required"
 
         try:
             if value_type == SettingValueType.INTEGER:
