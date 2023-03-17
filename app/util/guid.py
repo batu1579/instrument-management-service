@@ -52,7 +52,7 @@ class GUID(ValidatedValue[_GuidT]):
         Raises:
             ValueError: _description_
         """
-        if need_varification and not GUID.is_guid(guid):
+        if need_varification and not GUID.is_valid_guid(guid):
             raise ValueError(f"invalid guid: {guid}")
 
         self.__id = guid
@@ -156,7 +156,7 @@ class GUID(ValidatedValue[_GuidT]):
         return self.__id & 0xFFF
 
     @staticmethod
-    def is_guid(guid: int) -> bool:
+    def is_valid_guid(guid: int) -> bool:
         """判断 GUID 是否合法
 
         Args:
