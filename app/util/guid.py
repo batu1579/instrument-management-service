@@ -76,6 +76,8 @@ class GUID(ValidatedValue[_GuidT]):
         Returns:
             T: 新的 GUID 对象
         """
+        if not guid.isdigit():
+            raise ValueError(f"guid ({guid}) is not a number")
         return cls(int(guid))
 
     @classmethod
