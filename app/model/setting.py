@@ -54,7 +54,7 @@ class _BaseSetting(DataModel):
         example="一个设置项描述示例",
     )
 
-    @validator("value")
+    @validator("value", always=True)
     def check_value(cls, _: str, values: dict) -> ParsedValue:
         """校验设置值
 
