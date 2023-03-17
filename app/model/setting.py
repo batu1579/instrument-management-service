@@ -54,23 +54,6 @@ class _BaseSetting(DataModel):
         example="一个设置项描述示例",
     )
 
-    @validator("value_type")
-    def format_value_type(cls, value: int) -> SettingValueType:
-        """校验设置值类型
-
-        Args:
-            value (int): 设置值类型
-
-        Raises:
-            ValueError: 当使用的类型不支持时抛出异常
-
-        Returns:
-            SettingValueType: 转换为 SettingValueType 类型后的设置值类型
-        """
-        if value not in SettingValueType:
-            raise ValueError(f"Unsupport value type: {value}")
-        return SettingValueType(value)
-
     @validator("value")
     def check_value(cls, _: str, values: dict) -> ParsedValue:
         """校验设置值
