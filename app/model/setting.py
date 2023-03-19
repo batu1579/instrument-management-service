@@ -15,13 +15,14 @@ class _BaseSetting(DataModel):
         ...,
         title="设置项数据的类型",
         description="""
-        目前支持的类型有四个，默认为字符串类型，请求时只需携带对应的数值:
+        用来规定设置项数据的类型，目前可选的类型有：
 
             - STRING    (0): 字符串
             - INTEGER   (1): 整数
             - FLOAT     (2): 浮点数
             - BOOLEAN   (3): 布尔值
 
+        默认为字符串（ STRING ）类型，可以在设置中修改。
         其他类型数值（例如数组）请使用字符串类型并编写对应的解析和校验方法。""",
     )
     setting_key: str = Field(
@@ -49,8 +50,7 @@ class _BaseSetting(DataModel):
         None,
         max_length=LONG_LENGTH,
         title="设置项备注",
-        description="描述设置项的作用，格式要求或者示例",
-        example="一个设置项描述示例",
+        example="A setting comment",
     )
 
     @validator("value", always=True)
@@ -99,13 +99,14 @@ class SettingInCreate(InCreateModel, _BaseSetting):
         SettingValueType.STRING,
         title="设置项数据的类型",
         description="""
-        目前支持的类型有四个，默认为字符串类型，请求时只需携带对应的数值:
+        用来规定设置项数据的类型，目前可选的类型有：
 
             - STRING    (0): 字符串
             - INTEGER   (1): 整数
             - FLOAT     (2): 浮点数
             - BOOLEAN   (3): 布尔值
 
+        默认为字符串（ STRING ）类型，可以在设置中修改。
         其他类型数值（例如数组）请使用字符串类型并编写对应的解析和校验方法。""",
     )
 

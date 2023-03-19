@@ -59,7 +59,7 @@ class _BaseCabinet(DataModel):
             - ENABLED   (1): 启用
             - FULL_LOAD (2): 满载
             
-        新建立的存储柜默认为禁用（ DISABLED ）。""",
+        新建立的存储柜默认为禁用（ DISABLED ），可以在设置中修改。""",
     )
 
     @validator("current_number")
@@ -140,7 +140,7 @@ class CabinetInCreate(InCreateModel, _BaseCabinet):
             - ENABLED   (1): 启用
             - FULL_LOAD (2): 满载
             
-        新建立的存储柜默认为禁用（ DISABLED ）。""",
+        新建立的存储柜默认为禁用（ DISABLED ），可以在设置中修改。""",
     )
 
 
