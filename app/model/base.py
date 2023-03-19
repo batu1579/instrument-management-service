@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Type
 
 from datetime import datetime, timezone
 
@@ -8,15 +8,33 @@ from pydantic import BaseModel as __BaseModel
 from app.util.type.guid import GUID
 
 
+class OuterModelConfig(BaseConfig):
+    """要返回到外部（客户端）的数据模型的配置"""
+
+    arbitrary_types_allowed = True
+    json_encoders = {
+        datetime: lambda dt: (
+            dt.replace(tzinfo=timezone.utc).isoformat().replace("+00:00", "Z")
+        ),
+        GUID: lambda guid: guid.to_string(),
+    }
+
+
+class InnerModelConfig(BaseConfig):
+    """存放在内部（数据库中）的数据模型的配置"""
+
+    use_enum_values = True
+    arbitrary_types_allowed = True
+    json_encoders = {
+        datetime: lambda dt: (
+            dt.replace(tzinfo=timezone.utc).isoformat().replace("+00:00", "Z")
+        ),
+        GUID: lambda guid: guid.guid,
+    }
+
+
 class BaseModel(__BaseModel):
-    class Config(BaseConfig):
-        arbitrary_types_allowed = True
-        json_encoders = {
-            datetime: lambda dt: (
-                dt.replace(tzinfo=timezone.utc).isoformat().replace("+00:00", "Z")
-            ),
-            GUID: lambda guid: guid.to_string(),
-        }
+    Config: Type[BaseConfig] = OuterModelConfig
 
 
 class DataModel(__BaseModel):
@@ -36,34 +54,17 @@ class DataModel(__BaseModel):
         description="数据库中的记录最后的更新时间。",
     )
 
-    class Config(BaseConfig):
-        orm_mode = True
-        use_enum_values = True
-        arbitrary_types_allowed = True
-        json_encoders = {
-            datetime: lambda dt: (
-                dt.replace(tzinfo=timezone.utc).isoformat().replace("+00:00", "Z")
-            ),
-            GUID: lambda guid: guid.to_string(),
-        }
+    Config: Type[BaseConfig] = OuterModelConfig
 
 
 class InCreateModel(__BaseModel):
-    id: Optional[GUID | str] = Field(
+    id: Optional[GUID] = Field(
         default_factory=GUID.generate,
         title="记录 ID",
         description="数据库中的记录 ID ，也是表中的主键。使用雪花算法生成的全局唯一识别码，依赖于 pysnowflake 。",
     )
 
-    class Config(BaseConfig):
-        use_enum_values = True
-        arbitrary_types_allowed = True
-        json_encoders = {
-            datetime: lambda dt: (
-                dt.replace(tzinfo=timezone.utc).isoformat().replace("+00:00", "Z")
-            ),
-            GUID: lambda guid: guid.guid,
-        }
+    Config: Type[BaseConfig] = InnerModelConfig
 
 
 class InUpdateModel(__BaseModel):
@@ -71,12 +72,4 @@ class InUpdateModel(__BaseModel):
         kwargs.update({"exclude_unset": True})
         return super().dict(*args, **kwargs)
 
-    class Config(BaseConfig):
-        use_enum_values = True
-        arbitrary_types_allowed = True
-        json_encoders = {
-            datetime: lambda dt: (
-                dt.replace(tzinfo=timezone.utc).isoformat().replace("+00:00", "Z")
-            ),
-            GUID: lambda guid: guid.guid,
-        }
+    Config: Type[BaseConfig] = InnerModelConfig
