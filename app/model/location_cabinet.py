@@ -61,7 +61,6 @@ class _BaseCabinet(DataModel):
             - FULL_LOAD (2): 满载
             
         新建立的存储柜默认为禁用（ DISABLED ）。""",
-        example=CabinetStatus.DISABLED,
     )
 
     @validator("current_number")
@@ -143,7 +142,6 @@ class CabinetInCreate(InCreateModel, _BaseCabinet):
             - FULL_LOAD (2): 满载
             
         新建立的存储柜默认为禁用（ DISABLED ）。""",
-        example=CabinetStatus.DISABLED,
     )
 
 
@@ -198,7 +196,6 @@ class CabinetInUpdate(InUpdateModel, _BaseCabinet):
             - FULL_LOAD (2): 满载
             
         新建立的存储柜默认为禁用（ DISABLED ）。""",
-        example=CabinetStatus.DISABLED,
     )
 
 
