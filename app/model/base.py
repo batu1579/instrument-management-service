@@ -34,7 +34,7 @@ class InnerModelConfig(BaseConfig):
 
 
 class BaseModel(__BaseModel):
-    Config: Type[BaseConfig] = OuterModelConfig
+    Config = OuterModelConfig
 
 
 class DataModel(__BaseModel):
@@ -54,7 +54,7 @@ class DataModel(__BaseModel):
         description="数据库中的记录最后的更新时间。",
     )
 
-    Config: Type[BaseConfig] = OuterModelConfig
+    Config = OuterModelConfig
 
 
 class InCreateModel(__BaseModel):
@@ -64,7 +64,7 @@ class InCreateModel(__BaseModel):
         description="数据库中的记录 ID ，也是表中的主键。使用雪花算法生成的全局唯一识别码，依赖于 pysnowflake 。",
     )
 
-    Config: Type[BaseConfig] = InnerModelConfig
+    Config = InnerModelConfig
 
 
 class InUpdateModel(__BaseModel):
@@ -72,4 +72,4 @@ class InUpdateModel(__BaseModel):
         kwargs.update({"exclude_unset": True})
         return super().dict(*args, **kwargs)
 
-    Config: Type[BaseConfig] = InnerModelConfig
+    Config = InnerModelConfig
