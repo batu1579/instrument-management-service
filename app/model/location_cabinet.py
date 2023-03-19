@@ -14,7 +14,6 @@ class _BaseCabinet(DataModel):
     located_room: GUID = Field(
         ...,
         title="存储柜所在房间的 ID",
-        example=GUID.generate().guid,
     )
     cabinet_name: str = Field(
         ...,
@@ -149,7 +148,6 @@ class CabinetInUpdate(InUpdateModel, _BaseCabinet):
     located_room: Optional[GUID] = Field(
         None,
         title="存储柜所在房间的 ID",
-        example=GUID.generate().guid,
     )
     cabinet_name: Optional[str] = Field(
         None,
