@@ -15,8 +15,8 @@ class StorageLocationType(ValidatedEnum):
     CABINET = 1
 
 
-class InstrumentStorgeRule(Base):
-    __tablename__ = "instrument_storge_rule"
+class InstrumentStorageRule(Base):
+    __tablename__ = "instrument_storage_rule"
 
     rule_type = Column(
         SQLAlchemyEnum(RuleStatus),
@@ -30,5 +30,5 @@ class InstrumentStorgeRule(Base):
         default=StorageLocationType.ROOM,
         comment="存储位置类型",
     )
-    storge_location = Column(BigInteger, nullable=False, comment="规则标记的存储位置")
+    storage_location = Column(BigInteger, nullable=False, comment="规则标记的存储位置")
     instrument_category = Column(BigInteger, nullable=False, comment="规则标记的器械类别")
