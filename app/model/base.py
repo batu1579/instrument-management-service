@@ -1,4 +1,4 @@
-from typing import Optional, Type
+from typing import Optional
 
 from datetime import datetime, timezone
 
@@ -26,9 +26,9 @@ class InnerModelConfig(BaseConfig):
     use_enum_values = True
     arbitrary_types_allowed = True
     json_encoders = {
-        datetime: lambda dt: (
-            dt.replace(tzinfo=timezone.utc).isoformat().replace("+00:00", "Z")
-        ),
+        # datetime: lambda dt: (
+        #     dt.replace(tzinfo=timezone.utc).isoformat().replace("+00:00", "Z")
+        # ),
         GUID: lambda guid: guid.guid,
     }
 
