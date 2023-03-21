@@ -11,14 +11,14 @@ from loguru import logger
 from snowflake import client
 from snowflake.server.generator import EPOCH_TIMESTAMP
 
+from app.util.env import SETTINGS
 from app.util.type.custom_validator import ValidatedValue
-from app.util.env import ID_SERVICE_HOST, ID_SERVICE_PORT
 
 
 def init_snowflake_client() -> None:
     """初始化 ID 服务客户端"""
     try:
-        client.setup(ID_SERVICE_HOST, ID_SERVICE_PORT)
+        client.setup(SETTINGS.id_service.host, SETTINGS.id_service.port)
         logger.info(f"id service status: {client.get_stats()}")
     except RequestsConnectionError as error:
         logger.error(f"Can not init id service: {error}")

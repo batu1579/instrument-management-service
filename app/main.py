@@ -4,35 +4,34 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
 
 from starlette.exceptions import HTTPException
-from starlette.datastructures import CommaSeparatedStrings
 from starlette.middleware.httpsredirect import HTTPSRedirectMiddleware
 
 from app.api import root_router
 from app.database import DB
 from app.exception import handler
-from app.util import env
 from app.util.log import LOG
+from app.util.env import SETTINGS
 from app.util.type.guid import init_snowflake_client
 
 app = FastAPI(
-    title=env.TITLE,
+    title=SETTINGS.docs.docs_title,
     version="0.1.0",
-    docs_url=env.DOCS_URL,
-    redoc_url=env.REDOCS_URL,
+    docs_url=SETTINGS.docs.docs_path.as_posix(),
+    redoc_url=SETTINGS.docs.redocs_path.as_posix(),
 )
 
 # 注册中间件
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=CommaSeparatedStrings(env.ORIGINS),
+    allow_origins=SETTINGS.service.origins,
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "DELETE"],
     allow_headers=["*"],
 )
 
-app.add_middleware(GZipMiddleware, minimum_size=env.GZIP_MIN_SIZE)
+app.add_middleware(GZipMiddleware, minimum_size=SETTINGS.service.gzip_min_size)
 
-if env.USE_HTTPS_ONLY:
+if SETTINGS.service.use_https_only:
     app.add_middleware(HTTPSRedirectMiddleware)
 
 # 注册事件

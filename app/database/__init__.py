@@ -4,23 +4,17 @@ from sqlalchemy.engine.url import URL
 from sqlalchemy.orm import sessionmaker, Session
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncEngine, AsyncSession
 
-from app.util.env import (
-    DB_HOST,
-    DB_PORT,
-    DB_USER,
-    DB_PASSWORD,
-    DB_NAME,
-)
+from app.util.env import SETTINGS
 
 
 class _DataBaseEngine:
     _CONNECT_URL: URL = URL.create(
         drivername="postgresql+asyncpg",
-        username=DB_USER,
-        password=DB_PASSWORD,
-        host=DB_HOST,
-        port=DB_PORT,
-        database=DB_NAME,
+        username=SETTINGS.database.username,
+        password=SETTINGS.database.password,
+        host=SETTINGS.database.host,
+        port=SETTINGS.database.port,
+        database=SETTINGS.database.database_name,
         query={
             "charset": "utf8mb4",
         },

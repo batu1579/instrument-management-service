@@ -2,20 +2,19 @@ from typing import Optional
 
 from loguru import logger
 
-from app.util.env import LOG_FILE_ROTATION as ROTATION
-from app.util.env import LOG_FILE_RETENTION as RETENTION
+from app.util.env import SETTINGS
 
 
 class Log:
-    __log_format: dict
+    __log_config: dict
     __handler_id: Optional[int] = 0
 
     def __init__(self, **kwargs):
-        self.__log_format = kwargs
+        self.__log_config = kwargs
 
     def start_logging(self) -> None:
         """开始记录日志"""
-        self.__handler_id = logger.add(**self.__log_format)
+        self.__handler_id = logger.add(**self.__log_config)
 
     def stop_logging(self) -> None:
         """停止记录日志"""
@@ -28,7 +27,7 @@ class Log:
 LOG = Log(
     sink="logs/log.log",
     enqueue=True,
-    rotation=ROTATION,
-    retention=int(RETENTION) if RETENTION.isdigit() else RETENTION,
+    rotation=SETTINGS.log.rotation,
+    retention=SETTINGS.log.retention,
     compression="tar.gz",
 )
