@@ -8,9 +8,14 @@
             "name": "Debug in console",
             "type": "python",
             "request": "launch",
-            "program": "run.py",
+            "program": "start.py",
+            "args": [
+                "run",
+                "--env-file",
+                "./.env"
+            ],
             "cwd": "${workspaceFolder}",
-            "console": "internalConsole",
+            "console": "integratedTerminal",
             "envFile": "${workspaceFolder}/.env",
             "justMyCode": true,
             "serverReadyAction": {
