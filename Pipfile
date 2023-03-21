@@ -8,12 +8,13 @@ fastapi = "*"
 pip = "*"
 install = "*"
 uvicorn = {extras = ["standard"], version = "*"}
-python-dotenv = "*"
-pydantic = "*"
 loguru = "*"
 sqlalchemy = "*"
 pysnowflake = "*"
 asyncpg = "*"
+pydantic = {extras = ["dotenv"], version = "*"}
+typer = {extras = ["all"], version = "*"}
+rich = "*"
 
 [dev-packages]
 black = "*"
